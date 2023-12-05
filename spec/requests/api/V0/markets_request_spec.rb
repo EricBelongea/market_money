@@ -3,7 +3,7 @@ require "rails_helper"
 describe "Markets API" do
   it 'sends a list of markets' do
     create_list(:market, 3)
-
+    # require 'pry'; binding.pry
     get '/api/v0/markets'
     # require 'pry'; binding.pry
     expect(response).to be_successful
