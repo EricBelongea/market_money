@@ -7,7 +7,7 @@ describe "Markets API" do
     get '/api/v0/markets'
     # require 'pry'; binding.pry
     expect(response).to be_successful
-
+    # require 'pry'; binding.pry
     markets = JSON.parse(response.body, symbolize_names: true)
 
     expect(markets.count).to eq(3)
