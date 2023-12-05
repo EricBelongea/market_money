@@ -1,0 +1,3 @@
+class MarketVendor < ApplicationRecord
+  
+end
