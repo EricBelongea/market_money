@@ -93,4 +93,23 @@ describe "Markets API" do
     expect(market[:attributes]).to have_key(:vendor_count)
     expect(market[:attributes][:vendor_count]).to be_a(Integer)
   end
+
+  it "SAD PATH - no merchant with provided id" do
+    markets = create_list(:market, 5)
+
+    get "/api/v0/markets/0"
+
+    expect(response).to_not be_successful
+
+    expect(response.status).to eq(404)
+    expect(response.status).to be_a(Integer)
+
+    data = JSON.parse(response.body, symbolize_names: true)
+
+    expect(data[:errors]).to be_a(Array)
+    expect(data[:errors].first[:status]).to eq("404")
+    expect(data[:errors].first[:title]).to eq("Couldn't find Market with 'id'=0")
+
+    # require 'pry'; binding.pry
+  end
 end

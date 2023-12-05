@@ -190,14 +190,14 @@
         "lines": [
           1,
           1,
-          5,
-          5,
-          5,
-          5,
-          5,
-          5,
-          5,
-          5,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
           null,
           null,
           null
@@ -251,6 +251,207 @@
           null
         ]
       },
+      "/Users/ericbelongea/Documents/turing_work/3mod/market_money/spec/models/market_vendor_spec.rb": {
+        "lines": [
+          1,
+          null,
+          1,
+          1,
+          null,
+          null,
+          null,
+          1,
+          2,
+          2,
+          null,
+          null
+        ]
+      },
+      "/Users/ericbelongea/Documents/turing_work/3mod/market_money/app/models/market_vendor.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null
+        ]
+      },
+      "/Users/ericbelongea/Documents/turing_work/3mod/market_money/spec/models/vendor_spec.rb": {
+        "lines": [
+          1,
+          null,
+          1,
+          1,
+          null,
+          null,
+          null,
+          1,
+          2,
+          2,
+          null,
+          null
+        ]
+      },
+      "/Users/ericbelongea/Documents/turing_work/3mod/market_money/app/models/vendor.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null
+        ]
+      },
+      "/Users/ericbelongea/Documents/turing_work/3mod/market_money/spec/poros/error_message_spec.rb": {
+        "lines": [
+          1,
+          null,
+          1,
+          1,
+          null,
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          null
+        ]
+      },
+      "/Users/ericbelongea/Documents/turing_work/3mod/market_money/spec/requests/api/V0/markets_request_spec.rb": {
+        "lines": [
+          1,
+          null,
+          1,
+          1,
+          1,
+          null,
+          1,
+          null,
+          1,
+          null,
+          1,
+          null,
+          1,
+          null,
+          1,
+          null,
+          3,
+          3,
+          null,
+          3,
+          3,
+          null,
+          3,
+          3,
+          null,
+          3,
+          3,
+          null,
+          3,
+          3,
+          null,
+          3,
+          3,
+          null,
+          3,
+          3,
+          null,
+          3,
+          3,
+          null,
+          3,
+          3,
+          null,
+          3,
+          3,
+          null,
+          3,
+          3,
+          null,
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          null,
+          1,
+          null,
+          1,
+          null,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          null,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          null,
+          1,
+          1,
+          1,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "/Users/ericbelongea/Documents/turing_work/3mod/market_money/app/poros/error_message.rb": {
+        "lines": [
+          1,
+          1,
+          null,
+          1,
+          2,
+          2,
+          null,
+          null
+        ]
+      },
       "/Users/ericbelongea/Documents/turing_work/3mod/market_money/app/controllers/api/v0/markets_controller.rb": {
         "lines": [
           1,
@@ -261,13 +462,13 @@
           null,
           null,
           1,
-          1,
+          2,
           null,
           null,
           1,
           null,
           1,
-          0,
+          1,
           null,
           null,
           null
@@ -293,22 +494,6 @@
           null
         ]
       },
-      "/Users/ericbelongea/Documents/turing_work/3mod/market_money/app/models/market_vendor.rb": {
-        "lines": [
-          1,
-          1,
-          1,
-          null
-        ]
-      },
-      "/Users/ericbelongea/Documents/turing_work/3mod/market_money/app/models/vendor.rb": {
-        "lines": [
-          1,
-          1,
-          1,
-          null
-        ]
-      },
       "/Users/ericbelongea/Documents/turing_work/3mod/market_money/app/serializers/vendor_serializer.rb": {
         "lines": [
           1,
@@ -317,8 +502,28 @@
           null,
           null
         ]
+      },
+      "/Users/ericbelongea/Documents/turing_work/3mod/market_money/app/serializers/error_serializer.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
+          null,
+          1,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
       }
     },
-    "timestamp": 1701819098
+    "timestamp": 1701820760
   }
 }
