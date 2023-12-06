@@ -1,30 +1,20 @@
 class Api::V0::VendorsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :not_found_response
+  rescue_from ActiveRecord::RecordInvalid, with: :bad_request_response
 
   def show 
     render json: VendorSerializer.new(Vendor.find(params[:id]))
-    # require 'pry'; binding.pry
   end
 
   def create
-    vendor = Vendor.new(vendor_params)
-    # require 'pry'; binding.pry
-    if vendor.save
-      render json: VendorSerializer.new(vendor), message: "Vendor created successfully", status: :created
-      # render json: { message: "Vendor created successfully", vendor: VendorSerializer.new(vendor) }, status: :created
-      # require 'pry'; binding.pry
-    else
-      render json: { errors: your_resource.errors.full_messages }, status: :unprocessable_entity
-    end
+    vendor = Vendor.create!(vendor_params)
+    render json: VendorSerializer.new(vendor)
   end
 
   def destroy
-    if Vendor.exists?(params[:id])
-      render json: Vendor.delete(params[:id])
-      head :no_content
-    else
-      render json: { error: "Record not found" }, status: :not_found
-    end
+    vendor = Vendor.find(params[:id])
+    vendor.destroy!
+    render json: VendorSerializer.new(vendor)
   end
 
   private
@@ -36,5 +26,10 @@ class Api::V0::VendorsController < ApplicationController
   def not_found_response(exception)
     render json: ErrorSerializer.new(ErrorMessage.new(exception.message, 404))
       .serialize_json, status: :not_found
+  end
+
+  def bad_request_response(exception)
+    render json: ErrorSerializer.new(ErrorMessage.new(exception.message, 400))
+      .serialize_json, status: :bad_request
   end
 end

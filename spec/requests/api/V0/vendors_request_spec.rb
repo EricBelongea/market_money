@@ -83,7 +83,7 @@ RSpec.describe "Vendor" do
   end
 
   describe '#sad-path' do
-    it 'returns proper error message and status code' do
+    it 'show page action - nonexistant vendor id' do
       vendor = create(:vendor)
 
       get "/api/v0/vendors/0"
@@ -94,10 +94,49 @@ RSpec.describe "Vendor" do
       expect(response.status).to be_a(Integer)
   
       data = JSON.parse(response.body, symbolize_names: true)
-  
+
       expect(data[:errors]).to be_a(Array)
       expect(data[:errors].first[:status]).to eq("404")
       expect(data[:errors].first[:title]).to eq("Couldn't find Vendor with 'id'=0")
+    end
+
+    it "create function sad-path" do
+      vendor_params = ({
+      name: "",
+      description: "School of Software and Design",
+      contact_name: "Hello my name is yeff", 
+      contact_phone: "1-800-123-4567",
+      credit_accepted: true
+    })
+    headers = {"CONTENT_TYPE" => "application/json"}
+
+    post "/api/v0/vendors", headers: headers, params: JSON.generate(vendor: vendor_params)
+
+    expect(response).to_not be_successful
+    expect(response.status).to eq(400)
+
+    created_vendor = JSON.parse(response.body, symbolize_names: true)
+
+    expect(created_vendor[:errors]).to be_a(Array)
+    expect(created_vendor[:errors].first[:status]).to eq("400")
+    expect(created_vendor[:errors].first[:title]).to eq("Validation failed: Name can't be blank")
+    end
+
+    it "delete action sad-path" do
+      vendor = create(:vendor)
+
+      delete "/api/v0/vendors/#{vendor.id}"
+
+      expect(response).to be_successful
+
+      delete "/api/v0/vendors/#{vendor.id}"
+      expect(response).to_not be_successful
+      
+      deleted_vendor = JSON.parse(response.body, symbolize_names: true)
+
+      expect(deleted_vendor[:errors]).to be_a(Array)
+      expect(deleted_vendor[:errors].first[:status]).to eq("404")
+      expect(deleted_vendor[:errors].first[:title]).to eq("Couldn't find Vendor with 'id'=#{vendor.id}")
     end
   end
 end
