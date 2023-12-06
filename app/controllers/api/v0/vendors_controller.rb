@@ -7,16 +7,23 @@ class Api::V0::VendorsController < ApplicationController
   end
 
   def create
-    # render json: VendorSerializer.new(vendor_params)
-    # require 'pry'; binding.pry
     vendor = Vendor.new(vendor_params)
-    require 'pry'; binding.pry
+    # require 'pry'; binding.pry
     if vendor.save
       render json: VendorSerializer.new(vendor), message: "Vendor created successfully", status: :created
       # render json: { message: "Vendor created successfully", vendor: VendorSerializer.new(vendor) }, status: :created
       # require 'pry'; binding.pry
     else
       render json: { errors: your_resource.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    if Vendor.exists?(params[:id])
+      render json: Vendor.delete(params[:id])
+      head :no_content
+    else
+      render json: { error: "Record not found" }, status: :not_found
     end
   end
 

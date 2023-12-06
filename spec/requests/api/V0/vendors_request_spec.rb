@@ -34,7 +34,7 @@ RSpec.describe "Vendor" do
     expect(vendor[:attributes][:credit_accepted]).to be_a(TrueClass).or be_a(FalseClass)
   end
 
-  it "Can send data to create a new Vendor" do
+  it "Create a new Vendor" do
     vendor_params = ({
       name: "Turing",
       description: "School of Software and Design",
@@ -47,7 +47,6 @@ RSpec.describe "Vendor" do
     post "/api/v0/vendors", headers: headers, params: JSON.generate(vendor: vendor_params)
 
     created_vendor = JSON.parse(response.body, symbolize_names: true)
-    # created_vendor = Vendor.last
     # require 'pry'; binding.pry
     expect(response).to be_successful
 
@@ -70,6 +69,17 @@ RSpec.describe "Vendor" do
     expect(created_vendor[:data][:attributes]).to have_key(:credit_accepted)
     expect(created_vendor[:data][:attributes][:credit_accepted]).to be_a(TrueClass).or(FalseClass)
     expect(created_vendor[:data][:attributes][:credit_accepted]).to eq(vendor_params[:credit_accepted])
+  end
+
+  it "Delete a vendor" do
+    v1 = create(:vendor)
+    v2 = create(:vendor)
+    v3 = create(:vendor)
+    v4 = create(:vendor)
+
+    expect { delete "/api/v0/vendors/#{v4.id}" }.to change(Vendor, :count).by(-1)
+
+    expect{ Vendor.find(v4.id)}.to raise_error(ActiveRecord::RecordNotFound)
   end
 
   describe '#sad-path' do
