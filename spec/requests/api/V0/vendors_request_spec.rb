@@ -82,6 +82,50 @@ RSpec.describe "Vendor" do
     expect{ Vendor.find(v4.id)}.to raise_error(ActiveRecord::RecordNotFound)
   end
 
+  it "Can update a vendor" do
+    vendor = create(:vendor)
+    
+    vendor_id = vendor.id
+
+    vendor_params = ({
+      name: "Eric",
+      description: "Once upon a time...",
+      contact_name: "Still eric",
+      contact_phone: "buy me dinner first",
+      credit_accepted: false
+    })
+    headers = {"CONTENT_TYPE" => "application/json"}
+
+    patch "/api/v0/vendors/#{vendor.id}", headers: headers, params: JSON.generate(vendor: vendor_params)
+
+    updated_vendor = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful    
+
+    expect(vendor_id.to_s).to eq(updated_vendor[:data][:id])
+    expect(updated_vendor[:data][:type]).to eq("vendor")
+
+    expect(updated_vendor[:data][:attributes]).to have_key(:name)
+    expect(updated_vendor[:data][:attributes][:name]).to be_a(String)
+    expect(updated_vendor[:data][:attributes][:name]).to eq(vendor_params[:name])
+
+    expect(updated_vendor[:data][:attributes]).to have_key(:description)
+    expect(updated_vendor[:data][:attributes][:description]).to be_a(String)
+    expect(updated_vendor[:data][:attributes][:description]).to eq(vendor_params[:description])
+
+    expect(updated_vendor[:data][:attributes]).to have_key(:contact_name)
+    expect(updated_vendor[:data][:attributes][:contact_name]).to be_a(String)
+    expect(updated_vendor[:data][:attributes][:contact_name]).to eq(vendor_params[:contact_name])
+
+    expect(updated_vendor[:data][:attributes]).to have_key(:contact_phone)
+    expect(updated_vendor[:data][:attributes][:contact_phone]).to be_a(String)
+    expect(updated_vendor[:data][:attributes][:contact_phone]).to eq(vendor_params[:contact_phone])
+
+    expect(updated_vendor[:data][:attributes]).to have_key(:credit_accepted)
+    expect(updated_vendor[:data][:attributes][:credit_accepted]).to be_a(FalseClass)
+    expect(updated_vendor[:data][:attributes][:credit_accepted]).to eq(vendor_params[:credit_accepted])
+  end
+
   describe '#sad-path' do
     it 'show page action - nonexistant vendor id' do
       vendor = create(:vendor)
@@ -137,6 +181,31 @@ RSpec.describe "Vendor" do
       expect(deleted_vendor[:errors]).to be_a(Array)
       expect(deleted_vendor[:errors].first[:status]).to eq("404")
       expect(deleted_vendor[:errors].first[:title]).to eq("Couldn't find Vendor with 'id'=#{vendor.id}")
+    end
+
+    it "update action sad-path" do
+      vendor = create(:vendor)
+    
+      vendor_id = vendor.id
+
+      vendor_params = ({
+        name: "",
+        description: "Once upon a time...",
+        contact_name: "Still eric",
+        contact_phone: "buy me dinner first",
+        credit_accepted: false
+      })
+      headers = {"CONTENT_TYPE" => "application/json"}
+
+      patch "/api/v0/vendors/#{vendor.id}", headers: headers, params: JSON.generate(vendor: vendor_params)
+
+      updated_vendor = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response).to_not be_successful 
+
+      expect(updated_vendor[:errors]).to be_a(Array)
+      expect(updated_vendor[:errors].first[:status]).to eq("400")
+      expect(updated_vendor[:errors].first[:title]).to eq("Validation failed: Name can't be blank")
     end
   end
 end
