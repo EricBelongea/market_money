@@ -8,6 +8,11 @@ class Api::V0::MarketVendorsController < ApplicationController
   end
 
   def create
+    if params[:market_id].blank? || params[:vendor_id].blank?
+      render json: { errors: [{ status: '400', title: 'Market ID or Vendor ID cannot be blank' }] }, status: :bad_request
+      return
+    end
+      
     market = Market.find(params[:market_id])
     vendor = Vendor.find(params[:vendor_id])
     market_vendor = MarketVendor.create!(market_vendor_params)
@@ -16,8 +21,8 @@ class Api::V0::MarketVendorsController < ApplicationController
 
   def destroy
     market_vendor = MarketVendor.find(params[:id])
-    market_vendor.destory!
-    render json: MarketVendorSerializer.new(market_vendor), status: 202
+    market_vendor.destroy!
+    render json: MarketVendorSerializer.new(market_vendor), status: 204
   end
 
   private
