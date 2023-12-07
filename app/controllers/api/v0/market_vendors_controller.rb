@@ -12,7 +12,6 @@ class Api::V0::MarketVendorsController < ApplicationController
       render json: { errors: [{ status: '400', title: 'Market ID or Vendor ID cannot be blank' }] }, status: :bad_request
       return
     end
-      
     market = Market.find(params[:market_id])
     vendor = Vendor.find(params[:vendor_id])
     market_vendor = MarketVendor.create!(market_vendor_params)

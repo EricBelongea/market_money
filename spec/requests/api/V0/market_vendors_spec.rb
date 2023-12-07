@@ -62,12 +62,6 @@ RSpec.describe "MarketVendors" do
     expect(market_vendor[:attributes][:vendor_id]).to eq(vendor.id)
     
     expect(market.vendors).to eq([vendor])
-    
-    # vendor2 = create(:vendor)
-    # post "/api/v0/market_vendors", params: { market_id: market.id, vendor_id: vendor2.id}
-    # require 'pry'; binding.pry
-
-    # expect(market.vendors).to eq([vendor, vendor2])
   end
 
   it "Can delete a market vendor" do
@@ -88,19 +82,6 @@ RSpec.describe "MarketVendors" do
 
     expect(Market.find(market.id)).to eq(market)
     expect(Vendor.find(vendor.id)).to eq(vendor)
-
-    # delete "/api/v0/vendors/#{vendor.id}"
-
-    #   expect(response).to be_successful
-
-    #   delete "/api/v0/vendors/#{vendor.id}"
-    #   expect(response).to_not be_successful
-      
-    #   deleted_vendor = JSON.parse(response.body, symbolize_names: true)
-
-    #   expect(deleted_vendor[:errors]).to be_a(Array)
-    #   expect(deleted_vendor[:errors].first[:status]).to eq("404")
-    #   expect(deleted_vendor[:errors].first[:title]).to eq("Couldn't find Vendor with 'id'=#{vendor.id}")
   end
 
   describe '#sad-path' do
@@ -132,11 +113,24 @@ RSpec.describe "MarketVendors" do
         expect(response).to_not be_successful
         expect(response.status).to eq(404)
         data = JSON.parse(response.body, symbolize_names: true)
-        # require 'pry'; binding.pry
 
         expect(data[:errors]).to be_a(Array)
         expect(data[:errors].first[:status]).to eq("404")
         expect(data[:errors].first[:title]).to eq("Couldn't find Market with 'id'=0")
+      end
+
+      it "Why Postman no see" do
+        vendor = create(:vendor)
+
+        post "/api/v0/market_vendors", params: { market_id: 123123123123123130000, vendor_id: vendor.id}
+        # require 'pry'; binding.pry
+        expect(response).to_not be_successful
+        expect(response.status).to eq(404)
+        data = JSON.parse(response.body, symbolize_names: true)
+
+        expect(data[:errors]).to be_a(Array)
+        expect(data[:errors].first[:status]).to eq("404")
+        expect(data[:errors].first[:title]).to eq("Couldn't find Market with 'id'=123123123123123130000")
       end
 
       it "Vendor must be real" do
