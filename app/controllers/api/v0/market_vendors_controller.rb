@@ -20,6 +20,7 @@ class Api::V0::MarketVendorsController < ApplicationController
   end
 
   def destroy
+    # require 'pry'; binding.pry
     market_vendor = MarketVendor.find_by(market_id: params[:market_id], vendor_id: params[:vendor_id])
     if MarketVendor.exists?(market_id: params[:market_id], vendor_id: params[:vendor_id]) # if calling market_vendor.id NoMethodError possible refactor to a rescue_from
       market_vendor.destroy!

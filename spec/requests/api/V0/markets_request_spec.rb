@@ -94,6 +94,42 @@ describe "Markets API" do
     expect(market[:attributes][:vendor_count]).to be_a(Integer)
   end
 
+  it "Can find markets based on search" do
+    market = create(:market)
+    market3 = create(:market)
+    market4 = create(:market)
+    
+    # require 'pry'; binding.pry
+    get "/api/v0/markets/search", params: { city: "#{market[:city]}" }
+    expect(response).to be_successful
+
+    market_data = JSON.parse(response.body, symbolize_names: true)
+    
+    expect(market_data[:data].count).to eq(1)
+    
+    market2 = create(:market, city: market[:city])
+    
+    get "/api/v0/markets/search", params: { city: "#{market[:city]}" }
+    market_data = JSON.parse(response.body, symbolize_names: true)
+    
+    expect(market_data[:data].count).to eq(2)
+  end
+
+  it "Can search by state" do
+    market = create(:market, city: "Gassaway", state: "West Virginia", name: "county")
+    market3 = create(:market, state: "West Virginia")
+    market4 = create(:market, state: "West Virginia")
+    
+    # require 'pry'; binding.pry
+    get "/api/v0/markets/search", params: { city: "Gassaway", state: "West Virginia", name: "county"}
+    expect(response).to be_successful
+
+    market_data = JSON.parse(response.body, symbolize_names: true)
+    
+    expect(market_data[:data].count).to eq(1)
+
+  end
+
   describe '#sad-path' do
     it "no merchant with provided id" do
       markets = create_list(:market, 5)
